@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Subir Factura</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 16px;
+      color: #1a1a2e;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4f46e5;
+    }
+
+    .photo-area {
+      border: 2px dashed #c7d2fe;
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      background: #f8f7ff;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+
+    .photo-area:hover { background: #eef2ff; }
+
+    .photo-area .icon { font-size: 40px; margin-bottom: 8px; }
+
+    .photo-area p {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 500;
+    }
+
+    .photo-area small {
+      display: block;
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    input[type="file"] { display: none; }
+
+    #preview-container {
+      display: none;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #preview {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .preview-info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 6px;
+    }
+
+    .change-photo {
+      font-size: 13px;
+      color: #6366f1;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    button[type="submit"]:hover { background: #4338ca; }
+    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .status {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      display: none;
+    }
+
+    .status.loading {
+      background: #eff6ff;
+      color: #3b82f6;
+      display: block;
+    }
+
+    .status.success {
+      background: #f0fdf4;
+      color: #16a34a;
+      display: block;
+    }
+
+    .status.error {
+      background: #fef2f2;
+      color: #dc2626;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <h1>📄 Subir Factura</h1>
+    <p>Foto con sello de recibido</p>
+  </div>
+
+  <form id="form">
+    <label for="invoice">Número de factura</label>
+    <input type="text" id="invoice" placeholder="Ej: FAC-2024-001" required autocomplete="off">
+
+    <label>Foto de la factura</label>
+    <div class="photo-area" id="photo-area" onclick="document.getElementById('file-input').click()">
+      <div class="icon">📷</div>
+      <p>Tomar foto o seleccionar imagen</p>
+      <small>Se comprimirá automáticamente</small>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" capture="environment">
+
+    <div id="preview-container">
+      <img id="preview" alt="Vista previa">
+      <div class="preview-info" id="size-info"></div>
+      <span class="change-photo" onclick="document.getElementById('file-input').click()">Cambiar foto</span>
+    </div>
+
+    <button type="submit" id="submit-btn" disabled>Subir factura</button>
+  </form>
+
+  <div class="status" id="status"></div>
+</div>
+
+<canvas id="canvas" style="display:none"></canvas>
+
+<script>
+  // ⚠️ Reemplaza esta URL con la URL de tu Web App de Apps Script
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ2o0f1GlBFnjfIsr72nO1wjZXYVCccNlO650jlizg2prS_JKprj7u4O61YMGx-ZjU/exec';
+
+  const fileInput = document.getElementById('file-input');
+  const preview = document.getElementById('preview');
+  const previewContainer = document.getElementById('preview-container');
+  const photoArea = document.getElementById('photo-area');
+  const sizeInfo = document.getElementById('size-info');
+  const submitBtn = document.getElementById('submit-btn');
+  const status = document.getElementById('status');
+  const canvas = document.getElementById('canvas');
+
+  let compressedBase64 = null;
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    showStatus('loading', 'Comprimiendo imagen...');
+
+    try {
+      compressedBase64 = await compressImage(file);
+      const originalKB = Math.round(file.size / 1024);
+      const compressedKB = Math.round((compressedBase64.length * 0.75) / 1024);
+
+      preview.src = compressedBase64;
+      previewContainer.style.display = 'block';
+      photoArea.style.display = 'none';
+      sizeInfo.textContent = `Original: ${originalKB} KB → Comprimida: ${compressedKB} KB`;
+      submitBtn.disabled = false;
+      hideStatus();
+    } catch (err) {
+      showStatus('error', 'Error al procesar la imagen. Intenta de nuevo.');
+    }
+  });
+
+  function compressImage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX_WIDTH = 1600;
+          const MAX_HEIGHT = 1600;
+          let { width, height } = img;
+
+          if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+            const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+            width = Math.round(width * ratio);
+            height = Math.round(height * ratio);
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.65));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const invoice = document.getElementById('invoice').value.trim();
+    if (!invoice) return;
+    if (!compressedBase64) {
+      showStatus('error', 'Por favor selecciona una foto.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    showStatus('loading', 'Subiendo factura...');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: invoice, image: compressedBase64 })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showStatus('success', `✅ Factura ${invoice} subida correctamente.`);
+        resetForm();
+      } else {
+        throw new Error(result.error || 'Error desconocido');
+      }
+    } catch (err) {
+      showStatus('error', '❌ Error al subir. Verifica tu conexión e intenta de nuevo.');
+      submitBtn.disabled = false;
+    }
+  });
+
+  function resetForm() {
+    document.getElementById('invoice').value = '';
+    fileInput.value = '';
+    compressedBase64 = null;
+    previewContainer.style.display = 'none';
+    photoArea.style.display = 'block';
+    submitBtn.disabled = true;
+  }
+
+  function showStatus(type, message) {
+    status.className = 'status ' + type;
+    status.textContent = message;
+  }
+
+  function hideStatus() {
+    status.className = 'status';
+    status.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
