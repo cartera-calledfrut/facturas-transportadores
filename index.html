@@ -291,7 +291,7 @@
     try {
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        redirect: 'follow',
         body: JSON.stringify({ filename: invoice, image: compressedBase64 })
       });
 
