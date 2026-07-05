@@ -33,17 +33,8 @@
       margin-bottom: 28px;
     }
 
-    .logo h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1a1a2e;
-    }
-
-    .logo p {
-      font-size: 14px;
-      color: #666;
-      margin-top: 4px;
-    }
+    .logo h1 { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+    .logo p { font-size: 14px; color: #666; margin-top: 4px; }
 
     label {
       display: block;
@@ -65,68 +56,67 @@
       margin-bottom: 20px;
     }
 
-    input[type="text"]:focus {
-      border-color: #4f46e5;
-    }
+    input[type="text"]:focus { border-color: #4f46e5; }
+
+    input[type="file"] { display: none; }
 
     .photo-area {
       border: 2px dashed #c7d2fe;
       border-radius: 10px;
-      padding: 24px;
+      padding: 20px;
       text-align: center;
       cursor: pointer;
       background: #f8f7ff;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       transition: background 0.2s;
     }
 
     .photo-area:hover { background: #eef2ff; }
+    .photo-area .icon { font-size: 36px; margin-bottom: 6px; }
+    .photo-area p { font-size: 14px; color: #6366f1; font-weight: 500; }
+    .photo-area small { display: block; font-size: 12px; color: #999; margin-top: 3px; }
 
-    .photo-area .icon { font-size: 40px; margin-bottom: 8px; }
+    .photos-list { margin-bottom: 16px; }
 
-    .photo-area p {
-      font-size: 14px;
-      color: #6366f1;
-      font-weight: 500;
-    }
-
-    .photo-area small {
-      display: block;
-      font-size: 12px;
-      color: #999;
-      margin-top: 4px;
-    }
-
-    input[type="file"] { display: none; }
-
-    #preview-container {
-      display: none;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    #preview {
-      width: 100%;
-      max-height: 220px;
-      object-fit: cover;
+    .photo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 10px;
-      border: 2px solid #e2e8f0;
+      padding: 10px 12px;
+      margin-bottom: 8px;
     }
 
-    .preview-info {
-      font-size: 12px;
-      color: #666;
-      margin-top: 6px;
+    .photo-item img {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
     }
 
-    .change-photo {
-      font-size: 13px;
-      color: #6366f1;
+    .photo-item-info { flex: 1; min-width: 0; }
+    .photo-item-name { font-size: 13px; font-weight: 600; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .photo-item-size { font-size: 11px; color: #888; margin-top: 2px; }
+    .photo-item-status { font-size: 18px; flex-shrink: 0; }
+
+    .btn-add-photo {
+      width: 100%;
+      padding: 12px;
+      background: #eef2ff;
+      color: #4f46e5;
+      border: 2px dashed #c7d2fe;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      text-decoration: underline;
-      margin-top: 6px;
-      display: inline-block;
+      margin-bottom: 16px;
+      transition: background 0.2s;
     }
+
+    .btn-add-photo:hover { background: #e0e7ff; }
 
     button[type="submit"] {
       width: 100%;
@@ -142,34 +132,60 @@
     }
 
     button[type="submit"]:hover { background: #4338ca; }
-    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .status {
       margin-top: 16px;
-      padding: 12px 16px;
+      padding: 14px 16px;
       border-radius: 10px;
       font-size: 14px;
       font-weight: 500;
       text-align: center;
       display: none;
+      line-height: 1.5;
     }
 
-    .status.loading {
-      background: #eff6ff;
-      color: #3b82f6;
-      display: block;
+    .status.loading { background: #eff6ff; color: #3b82f6; display: block; }
+    .status.success { background: #f0fdf4; color: #16a34a; display: block; font-size: 15px; }
+    .status.error { background: #fef2f2; color: #dc2626; display: block; }
+
+    .success-card {
+      display: none;
+      text-align: center;
+      padding: 24px 0 8px;
     }
 
-    .status.success {
-      background: #f0fdf4;
-      color: #16a34a;
-      display: block;
+    .success-card .check { font-size: 56px; margin-bottom: 12px; }
+    .success-card h2 { font-size: 20px; font-weight: 700; color: #16a34a; margin-bottom: 6px; }
+    .success-card p { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+    .btn-nueva {
+      width: 100%;
+      padding: 14px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    .status.error {
-      background: #fef2f2;
-      color: #dc2626;
-      display: block;
+    .progress-bar-wrap {
+      background: #e2e8f0;
+      border-radius: 99px;
+      height: 6px;
+      margin-top: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #4f46e5;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+      width: 0%;
     }
   </style>
 </head>
@@ -181,69 +197,116 @@
     <p>Foto con sello de recibido</p>
   </div>
 
-  <form id="form">
-    <label for="invoice">Número de factura</label>
-    <input type="text" id="invoice" placeholder="Ej: FAC-2024-001" required autocomplete="off">
+  <div id="form-view">
+    <form id="form">
+      <label for="invoice">Número de factura</label>
+      <input type="text" id="invoice" placeholder="Ej: 14283" required autocomplete="off">
 
-    <label>Foto de la factura</label>
-    <div class="photo-area" id="photo-area" onclick="document.getElementById('file-input').click()">
-      <div class="icon">📷</div>
-      <p>Tomar foto o seleccionar imagen</p>
-      <small>Se comprimirá automáticamente</small>
-    </div>
+      <label>Fotos de la factura</label>
+      <div class="photo-area" id="photo-area" onclick="triggerFileInput()">
+        <div class="icon">📷</div>
+        <p>Tomar foto o seleccionar imagen</p>
+        <small>Se comprimirá automáticamente</small>
+      </div>
 
-    <input type="file" id="file-input" accept="image/*" capture="environment">
+      <input type="file" id="file-input" accept="image/*" capture="environment">
 
-    <div id="preview-container">
-      <img id="preview" alt="Vista previa">
-      <div class="preview-info" id="size-info"></div>
-      <span class="change-photo" onclick="document.getElementById('file-input').click()">Cambiar foto</span>
-    </div>
+      <div class="photos-list" id="photos-list"></div>
 
-    <button type="submit" id="submit-btn" disabled>Subir factura</button>
-  </form>
+      <button type="button" class="btn-add-photo" id="btn-add-photo" style="display:none" onclick="triggerFileInput()">
+        + Agregar otra foto
+      </button>
 
-  <div class="status" id="status"></div>
+      <div class="progress-bar-wrap" id="progress-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="status" id="status"></div>
+
+      <button type="submit" id="submit-btn" disabled style="margin-top:16px">Subir factura</button>
+    </form>
+  </div>
+
+  <div class="success-card" id="success-card">
+    <div class="check">✅</div>
+    <h2 id="success-title">¡Factura subida!</h2>
+    <p id="success-desc"></p>
+    <button class="btn-nueva" onclick="resetAll()">Subir otra factura</button>
+  </div>
 </div>
 
 <canvas id="canvas" style="display:none"></canvas>
 
 <script>
-  // ⚠️ Reemplaza esta URL con la URL de tu Web App de Apps Script
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ2o0f1GlBFnjfIsr72nO1wjZXYVCccNlO650jlizg2prS_JKprj7u4O61YMGx-ZjU/exec';
 
-  const fileInput = document.getElementById('file-input');
-  const preview = document.getElementById('preview');
-  const previewContainer = document.getElementById('preview-container');
-  const photoArea = document.getElementById('photo-area');
-  const sizeInfo = document.getElementById('size-info');
-  const submitBtn = document.getElementById('submit-btn');
-  const status = document.getElementById('status');
-  const canvas = document.getElementById('canvas');
+  const fileInput    = document.getElementById('file-input');
+  const photoArea    = document.getElementById('photo-area');
+  const photosList   = document.getElementById('photos-list');
+  const btnAddPhoto  = document.getElementById('btn-add-photo');
+  const submitBtn    = document.getElementById('submit-btn');
+  const status       = document.getElementById('status');
+  const canvas       = document.getElementById('canvas');
+  const progressWrap = document.getElementById('progress-wrap');
+  const progressBar  = document.getElementById('progress-bar');
 
-  let compressedBase64 = null;
+  let photos = [];
+
+  function triggerFileInput() {
+    fileInput.value = '';
+    fileInput.click();
+  }
 
   fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    if (!file.type.startsWith('image/')) {
+      showStatus('error', '❌ El archivo debe ser una imagen (JPG, PNG, etc.)');
+      return;
+    }
+
+    if (file.size > 20 * 1024 * 1024) {
+      showStatus('error', '❌ La imagen es demasiado grande (máx. 20MB). Toma la foto con menor resolución.');
+      return;
+    }
+
     showStatus('loading', 'Comprimiendo imagen...');
 
     try {
-      compressedBase64 = await compressImage(file);
+      const base64 = await compressImage(file);
+      const sizeKB = Math.round((base64.length * 0.75) / 1024);
       const originalKB = Math.round(file.size / 1024);
-      const compressedKB = Math.round((compressedBase64.length * 0.75) / 1024);
 
-      preview.src = compressedBase64;
-      previewContainer.style.display = 'block';
-      photoArea.style.display = 'none';
-      sizeInfo.textContent = `Original: ${originalKB} KB → Comprimida: ${compressedKB} KB`;
-      submitBtn.disabled = false;
+      photos.push({ base64, sizeKB, originalKB });
+      renderPhotosList();
       hideStatus();
+
+      photoArea.style.display = 'none';
+      btnAddPhoto.style.display = 'block';
+      submitBtn.disabled = false;
     } catch (err) {
-      showStatus('error', 'Error al procesar la imagen. Intenta de nuevo.');
+      showStatus('error', '❌ No se pudo procesar la imagen. Intenta con otra foto.');
     }
   });
+
+  function renderPhotosList() {
+    photosList.innerHTML = '';
+    photos.forEach((p, i) => {
+      const label = photos.length > 1 ? `Foto ${i + 1}` : 'Foto';
+      const div = document.createElement('div');
+      div.className = 'photo-item';
+      div.innerHTML = `
+        <img src="${p.base64}" alt="foto ${i+1}">
+        <div class="photo-item-info">
+          <div class="photo-item-name">${label}</div>
+          <div class="photo-item-size">${p.originalKB} KB → ${p.sizeKB} KB comprimida</div>
+        </div>
+        <span class="photo-item-status" id="status-${i}">🕐</span>
+      `;
+      photosList.appendChild(div);
+    });
+  }
 
   function compressImage(file) {
     return new Promise((resolve, reject) => {
@@ -251,20 +314,16 @@
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          const MAX_WIDTH = 1600;
-          const MAX_HEIGHT = 1600;
+          const MAX = 1600;
           let { width, height } = img;
-
-          if (width > MAX_WIDTH || height > MAX_HEIGHT) {
-            const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
-            width = Math.round(width * ratio);
+          if (width > MAX || height > MAX) {
+            const ratio = Math.min(MAX / width, MAX / height);
+            width  = Math.round(width * ratio);
             height = Math.round(height * ratio);
           }
-
           canvas.width = width;
           canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
           resolve(canvas.toDataURL('image/jpeg', 0.65));
         };
         img.onerror = reject;
@@ -279,37 +338,79 @@
     e.preventDefault();
 
     const invoice = document.getElementById('invoice').value.trim();
-    if (!invoice) return;
-    if (!compressedBase64) {
-      showStatus('error', 'Por favor selecciona una foto.');
+
+    if (!invoice) {
+      showStatus('error', '❌ Escribe el número de factura.');
+      return;
+    }
+
+    if (photos.length === 0) {
+      showStatus('error', '❌ Agrega al menos una foto.');
       return;
     }
 
     submitBtn.disabled = true;
-    showStatus('loading', 'Subiendo factura...');
+    btnAddPhoto.style.display = 'none';
+    progressWrap.style.display = 'block';
+    progressBar.style.width = '0%';
+    hideStatus();
 
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({ filename: invoice, image: compressedBase64 })
-      });
+    let uploaded = 0;
+    let failed = 0;
 
-      showStatus('success', `✅ Factura ${invoice} enviada. Verifica en Drive.`);
-      resetForm();
-    } catch (err) {
-      showStatus('error', '❌ Error de conexión. Verifica tu internet e intenta de nuevo.');
+    for (let i = 0; i < photos.length; i++) {
+      const suffix = photos.length > 1 ? `-${i + 1}` : '';
+      const filename = invoice + suffix;
+      const statusEl = document.getElementById(`status-${i}`);
+
+      showStatus('loading', `Subiendo foto ${i + 1} de ${photos.length}...`);
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify({ filename, image: photos[i].base64 })
+        });
+        statusEl.textContent = '✅';
+        uploaded++;
+      } catch (err) {
+        statusEl.textContent = '❌';
+        failed++;
+      }
+
+      progressBar.style.width = `${((i + 1) / photos.length) * 100}%`;
+    }
+
+    progressWrap.style.display = 'none';
+
+    if (failed === 0) {
+      const desc = photos.length > 1
+        ? `${photos.length} fotos subidas como ${invoice}-1.jpg, ${invoice}-2.jpg, etc.`
+        : `Guardada como ${invoice}.jpg en tu carpeta de Drive.`;
+
+      document.getElementById('success-title').textContent = `¡Factura ${invoice} subida!`;
+      document.getElementById('success-desc').textContent = desc;
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('success-card').style.display = 'block';
+    } else {
+      showStatus('error', `❌ ${failed} foto(s) no se pudieron subir. Verifica tu conexión e intenta de nuevo.`);
       submitBtn.disabled = false;
+      btnAddPhoto.style.display = 'block';
     }
   });
 
-  function resetForm() {
+  function resetAll() {
+    photos = [];
     document.getElementById('invoice').value = '';
     fileInput.value = '';
-    compressedBase64 = null;
-    previewContainer.style.display = 'none';
+    photosList.innerHTML = '';
     photoArea.style.display = 'block';
+    btnAddPhoto.style.display = 'none';
     submitBtn.disabled = true;
+    hideStatus();
+    progressBar.style.width = '0%';
+    document.getElementById('form-view').style.display = 'block';
+    document.getElementById('success-card').style.display = 'none';
   }
 
   function showStatus(type, message) {
