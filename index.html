@@ -289,22 +289,16 @@
     showStatus('loading', 'Subiendo factura...');
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
-        redirect: 'follow',
+        mode: 'no-cors',
         body: JSON.stringify({ filename: invoice, image: compressedBase64 })
       });
 
-      const result = await response.json();
-
-      if (result.success) {
-        showStatus('success', `✅ Factura ${invoice} subida correctamente.`);
-        resetForm();
-      } else {
-        throw new Error(result.error || 'Error desconocido');
-      }
+      showStatus('success', `✅ Factura ${invoice} enviada. Verifica en Drive.`);
+      resetForm();
     } catch (err) {
-      showStatus('error', '❌ Error al subir. Verifica tu conexión e intenta de nuevo.');
+      showStatus('error', '❌ Error de conexión. Verifica tu internet e intenta de nuevo.');
       submitBtn.disabled = false;
     }
   });
